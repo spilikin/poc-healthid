@@ -5,6 +5,10 @@ import vuetify from "../plugins/vuetify";
 import VueRouter, { RouteConfig } from "vue-router";
 import LoginView from "./LoginView.vue";
 
+if (localStorage.getItem("accessToken") != null) {
+  localStorage.removeItem("accessToken")
+}
+
 Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [

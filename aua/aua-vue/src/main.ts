@@ -5,8 +5,13 @@ import router from "./router";
 
 Vue.config.productionTip = false;
 
-new Vue({
-  vuetify,
-  router,
-  render: (h) => h(App),
-}).$mount("#app");
+if (localStorage.getItem("accessToken") == null) {
+  location.href = "/login/"
+} else {
+  new Vue({
+    vuetify,
+    router,
+    render: (h) => h(App),
+  }).$mount("#app");  
+}
+
