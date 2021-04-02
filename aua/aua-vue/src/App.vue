@@ -137,7 +137,7 @@ export default class AppView extends Vue {
     width: 34px;
 }
 .buzzwords {
-  opacity: 40%;
+  opacity: 0.4;
   width: 100%;
   text-align: center;
 }
@@ -146,6 +146,4 @@ export default class AppView extends Vue {
   display: inline-block;
 }
 
-.buzzword > span {
-}
 </style>
