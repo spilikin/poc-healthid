@@ -50,7 +50,6 @@
                 <v-spacer></v-spacer>
               </v-card-actions>
             </v-card>
-            <Buzzwords/>
           </v-flex> 
         </v-layout>
       </v-container>

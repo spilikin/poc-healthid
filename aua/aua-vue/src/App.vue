@@ -18,8 +18,41 @@
         ></v-img>
       </v-toolbar-title>
       <v-spacer/>
-      <router-link class="menu" to="/">I have pain</router-link> |
-      <router-link class="menu" to="/about">Under the hood</router-link> |
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            icon
+            color="red"
+            dark
+            v-bind="attrs"
+            v-on="on"
+            to="/"
+            x-large
+          >
+            <v-icon>mdi-bullseye</v-icon>
+          </v-btn>
+        </template>
+        <span>Record pain episode</span>
+      </v-tooltip>
+
+      
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            icon
+            color="primary"
+            dark
+            v-bind="attrs"
+            v-on="on"
+            to="/about"
+          >
+            <v-icon>mdi-cog</v-icon>
+          </v-btn>
+        </template>
+        <span>Under the hood</span>
+      </v-tooltip>
+
+
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
           <v-btn
@@ -46,7 +79,37 @@
     </v-main>
 
     <v-footer app>
-      ...
+      <div class="buzzwords">
+      <div class="buzzword">
+        <v-img
+        class="icon"
+        :src="require('./assets/health_and_safety-white-18dp.svg')"
+        ></v-img>
+      </div>
+
+      <div class="buzzword">
+        <v-img
+        class="icon"
+        :src="require('./assets/developer_board-white-18dp.svg')"
+        ></v-img>
+      </div>
+
+      <div class="buzzword">
+        <v-img
+        class="icon"
+        :src="require('./assets/local_fire_department-white-18dp.svg')"
+        ></v-img>
+      </div>
+
+      <div class="buzzword">
+        <v-img
+        class="icon"
+        :src="require('./assets/all_inclusive-white-18dp.svg')"
+        ></v-img>
+      </div>
+
+
+      </div>
     </v-footer>
   </v-app>
 </template>
@@ -68,5 +131,21 @@ export default class AppView extends Vue {
 <style scoped>
 .menu {
   margin: 10px;
+}
+.icon {
+    float: left;
+    width: 34px;
+}
+.buzzwords {
+  opacity: 40%;
+  width: 100%;
+  text-align: center;
+}
+.buzzword {
+  margin-right: 12px;
+  display: inline-block;
+}
+
+.buzzword > span {
 }
 </style>
