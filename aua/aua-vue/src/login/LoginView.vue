@@ -27,7 +27,7 @@
                   item-text="title"
                   item-value="id"
                   style="font-size: 150%;"
-                  v-model="identityProviderId"
+                  v-model="identityProviderModel"
                 >
                 </v-select>
               </v-card-text>
@@ -75,16 +75,24 @@ interface IdentityProvider {
   }
 })
 export default class LoginView extends Vue {
+  private identityProviderId! : string | null 
 
-  set identityProviderId(id: string | null) {
-    localStorage.setItem("identityProviderId", id)
+  set identityProviderModel(id: string | null) {
+    localStorage.setItem("identityProviderId", id!)
+    this.identityProviderId = id
   }
 
-  get identityProviderId(): string | null {
-    return localStorage.getItem("identityProviderId")
+  get identityProviderModel(): string | null {
+    return this.identityProviderId
+  }
+
+  created() {
+    this.identityProviderId = localStorage.getItem("identityProviderId")
   }
 
   mounted() {
+    //localStorage.removeItem("identityProviderId")
+
     if (window.location.search) {
       const tokenEndpoint = "https://id.acme.spilikin.dev/auth/realms/healthid/protocol/openid-connect/token"
       var args = new URLSearchParams(window.location.search);
@@ -134,7 +142,8 @@ export default class LoginView extends Vue {
   }
 
   onLogin() {
-    let identityProvider = this.identityProviderList.find(provider => provider.id == this.identityProviderId)
+    const id = this.identityProviderId
+    let identityProvider = this.identityProviderList.find(provider => provider.id == id)
     if (identityProvider == null) {
       alert("Select your HealthID Provider")
       return
