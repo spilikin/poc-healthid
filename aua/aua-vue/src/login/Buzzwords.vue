@@ -48,7 +48,6 @@
             <v-col>
                 <v-img
                 class="icon"
-                style="opacity: 40%; float: left; margin-right: 5px;"
                 :src="require('../assets/all_inclusive-white-18dp.svg')"
                 ></v-img>
                 <div class="buzzword">
@@ -72,7 +71,6 @@ export default class Buzzwords extends Vue {
 
 <style scoped>
 .icon {
-    opacity: 40%; 
     float: left;
     width: 34px;
 }
