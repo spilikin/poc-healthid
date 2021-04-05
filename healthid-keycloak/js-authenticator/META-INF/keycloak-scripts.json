@@ -1,0 +1,9 @@
+{
+    "authenticators": [
+        {
+            "name": "HealthID Authenticator",
+            "fileName": "healthid-authenticator.js",
+            "description": "HealthID Authenticator delegates the authentication to microservice"
+        }
+    ]
+}

@@ -119,7 +119,7 @@ export default class LoginView extends Vue {
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.send(new URLSearchParams({
             client_id: "aua.spilikin.dev",
-            code_verifier: ""+window.sessionStorage.getItem("code_verifier"),
+            code_verifier: ""+window.localStorage.getItem("code_verifier"),
             grant_type: "authorization_code",
             redirect_uri: location.href.replace(location.search, ''),
             code: code
@@ -139,7 +139,7 @@ export default class LoginView extends Vue {
       }
     ]  
   }
-
+ 
   onLogin() {
     const id = this.identityProviderId
     let identityProvider = this.identityProviderList.find(provider => provider.id == id)
@@ -153,7 +153,7 @@ export default class LoginView extends Vue {
 
     const codeVerifier = this.generateRandomString(64);
     this.generateCodeChallenge(codeVerifier).then(function(codeChallenge) {
-      window.sessionStorage.setItem("code_verifier", codeVerifier);
+      window.localStorage.setItem("code_verifier", codeVerifier);
 
       let args = new URLSearchParams({
           response_type: "code",

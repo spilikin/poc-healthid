@@ -1,0 +1,89 @@
+version: '3'
+
+volumes:
+  postgres_data:
+      driver: local
+
+services:
+  reverse-proxy:
+      image: traefik:v2.3
+      command: 
+          #- "--log.level=DEBUG"
+          #- "--api.insecure=true"
+          - "--providers.docker=true"
+          - "--providers.docker.exposedbydefault=false"
+          - "--entrypoints.websecure.address=:443"
+          - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+          #- "--certificatesresolvers.myresolver.acme.caserver=https://acme-staging-v02.api.letsencrypt.org/directory"
+          - "--certificatesresolvers.myresolver.acme.email=cloud@spilikin.dev"
+          - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+      ports:
+          # The HTTP port
+          - "443:443"
+          # The Web UI (enabled by --api.insecure=true)
+          #- "8080:8080"
+      volumes:
+          # So that Traefik can listen to the Docker events
+          - /var/run/docker.sock:/var/run/docker.sock
+          - "../healthid_volumes/letsencrypt:/letsencrypt"
+
+  postgres:
+      image: postgres
+      volumes:
+        - ../healthid_volumes/postgres_data:/var/lib/postgresql/data
+      environment:
+        POSTGRES_DB: keycloak
+        POSTGRES_USER: keycloak
+        POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  keycloak:
+      #entrypoint: ["echo", "Service foo disabled"]
+      image: quay.io/keycloak/keycloak:latest
+      environment:
+        DB_VENDOR: POSTGRES
+        DB_ADDR: postgres
+        DB_DATABASE: keycloak
+        DB_USER: keycloak
+        DB_SCHEMA: public
+        DB_PASSWORD: ${POSTGRES_PASSWORD}
+        KEYCLOAK_USER: admin
+        KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
+        JAVA_OPTS_APPEND: "-Dkeycloak.profile=preview -Dkeycloak.profile.feature.scripts=enabled"
+        PROXY_ADDRESS_FORWARDING: "true"
+        KEYCLOAK_HOSTNAME: id.acme.spilikin.dev
+      volumes:
+        - ./healthid-authenticator.jar:/opt/jboss/keycloak/standalone/deployments/healthid-authenticator.jar
+        - ./healthid-challenge.ftl:/opt/jboss/keycloak/themes/base/login/healthid-challenge.ftl
+      labels:
+          - "traefik.enable=true"
+          - "traefik.http.services.keycloak.loadbalancer.server.port=8080"
+          - "traefik.http.routers.keycloak.rule=Host(`id.acme.spilikin.dev`) && PathPrefix(`/auth/`)"
+          - "traefik.http.routers.keycloak.entrypoints=websecure"
+          - "traefik.http.routers.keycloak.tls.certresolver=myresolver"
+      #ports:
+      #    - 8080:80
+      depends_on:
+        - postgres
+        - reverse-proxy
+  static-web:
+    image: nginx:stable-alpine
+    volumes:
+      - ./static-web/html:/usr/share/nginx/html
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.static-web.loadbalancer.server.port=80"
+      - "traefik.http.routers.static-web.rule=Host(`id.acme.spilikin.dev`)"
+      - "traefik.http.routers.static-web.entrypoints=websecure"
+      - "traefik.http.routers.static-web.tls.certresolver=myresolver"
+  aua-vue:
+    image: nginx:stable-alpine
+    volumes:
+      - ./aua/aua-vue/dist:/usr/share/nginx/html
+      - ./aua/aua-vue/nginx.conf:/etc/nginx/conf.d/00_default.conf
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.aua-vue.loadbalancer.server.port=80"
+      - "traefik.http.routers.aua-vue.rule=Host(`aua.spilikin.dev`)"
+      - "traefik.http.routers.aua-vue.entrypoints=websecure"
+      - "traefik.http.routers.aua-vue.tls.certresolver=myresolver"
+    depends_on:
+      - reverse-proxy
