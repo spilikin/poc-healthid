@@ -17,41 +17,24 @@
           contain
         ></v-img>
       </v-toolbar-title>
-      <v-spacer/>
+      <v-spacer />
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            icon
-            color="red"
-            dark
-            v-bind="attrs"
-            v-on="on"
-            to="/"
-            x-large
-          >
+          <v-btn icon color="red" dark v-bind="attrs" v-on="on" to="/" x-large>
             <v-icon>mdi-bullseye</v-icon>
           </v-btn>
         </template>
         <span>Record pain episode</span>
       </v-tooltip>
 
-      
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            icon
-            color="primary"
-            dark
-            v-bind="attrs"
-            v-on="on"
-            to="/about"
-          >
+          <v-btn icon color="primary" dark v-bind="attrs" v-on="on" to="/about">
             <v-icon>mdi-cog</v-icon>
           </v-btn>
         </template>
         <span>Under the hood</span>
       </v-tooltip>
-
 
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
@@ -68,8 +51,6 @@
         </template>
         <span>Logout</span>
       </v-tooltip>
-
-
     </v-app-bar>
 
     <v-main>
@@ -80,52 +61,47 @@
 
     <v-footer app>
       <div class="buzzwords">
-      <div class="buzzword">
-        <v-img
-        class="icon"
-        :src="require('./assets/health_and_safety-white-18dp.svg')"
-        ></v-img>
-      </div>
+        <div class="buzzword">
+          <v-img
+            class="icon"
+            :src="require('./assets/health_and_safety-white-18dp.svg')"
+          ></v-img>
+        </div>
 
-      <div class="buzzword">
-        <v-img
-        class="icon"
-        :src="require('./assets/developer_board-white-18dp.svg')"
-        ></v-img>
-      </div>
+        <div class="buzzword">
+          <v-img
+            class="icon"
+            :src="require('./assets/developer_board-white-18dp.svg')"
+          ></v-img>
+        </div>
 
-      <div class="buzzword">
-        <v-img
-        class="icon"
-        :src="require('./assets/local_fire_department-white-18dp.svg')"
-        ></v-img>
-      </div>
+        <div class="buzzword">
+          <v-img
+            class="icon"
+            :src="require('./assets/local_fire_department-white-18dp.svg')"
+          ></v-img>
+        </div>
 
-      <div class="buzzword">
-        <v-img
-        class="icon"
-        :src="require('./assets/all_inclusive-white-18dp.svg')"
-        ></v-img>
-      </div>
-
-
+        <div class="buzzword">
+          <v-img
+            class="icon"
+            :src="require('./assets/all_inclusive-white-18dp.svg')"
+          ></v-img>
+        </div>
       </div>
     </v-footer>
   </v-app>
 </template>
 
-<style>
-</style>
+<style></style>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop } from "vue-property-decorator";
 
 @Component({
-  components: {
-  }
+  components: {},
 })
-export default class AppView extends Vue {
-}
+export default class AppView extends Vue {}
 </script>
 
 <style scoped>
@@ -133,8 +109,8 @@ export default class AppView extends Vue {
   margin: 10px;
 }
 .icon {
-    float: left;
-    width: 34px;
+  float: left;
+  width: 34px;
 }
 .buzzwords {
   opacity: 0.4;
@@ -145,5 +121,4 @@ export default class AppView extends Vue {
   margin-right: 12px;
   display: inline-block;
 }
-
 </style>

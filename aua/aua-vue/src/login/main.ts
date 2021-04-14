@@ -1,34 +1,52 @@
 import Vue from "vue";
-import App from "./Main.vue";
+import App from "./LoginMain.vue";
 import vuetify from "../plugins/vuetify";
 
 import VueRouter, { RouteConfig } from "vue-router";
-import LoginView from "./LoginView.vue";
+import ChooserView from "./ChooserView.vue";
+import AuthView from "./AuthView.vue";
+import CallbackView from "./CallbackView.vue";
 
 if (localStorage.getItem("accessToken") != null) {
-  localStorage.removeItem("accessToken")
+  localStorage.removeItem("accessToken");
 }
 
-Vue.use(VueRouter);
+if (location.pathname == "/login" || location.pathname == "/login/") {
+  if (localStorage.getItem("identityProviderId") != null) {
+    location.href = "/login/auth";
+  }
+} else {
+  Vue.use(VueRouter);
 
-const routes: Array<RouteConfig> = [
-  {
-    path: "/login",
-    name: "LoginView",
-    component: LoginView,
-  },
-];
+  const routes: Array<RouteConfig> = [
+    {
+      path: "/login",
+      name: "ChooserView",
+      component: ChooserView,
+    },
+    {
+      path: "/login/auth",
+      name: "AuthView",
+      component: AuthView,
+    },
+    {
+      path: "/login/callback",
+      name: "CallbackView",
+      component: CallbackView,
+    },
+  ];
 
-const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes,
-});
+  const router = new VueRouter({
+    mode: "history",
+    base: process.env.BASE_URL,
+    routes,
+  });
 
-Vue.config.productionTip = false;
+  Vue.config.productionTip = false;
 
-new Vue({
-  vuetify,
-  router,
-  render: (h) => h(App),
-}).$mount("#app");
+  new Vue({
+    vuetify,
+    router,
+    render: (h) => h(App),
+  }).$mount("#app");
+}

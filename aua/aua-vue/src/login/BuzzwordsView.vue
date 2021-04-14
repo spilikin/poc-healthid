@@ -1,81 +1,78 @@
 <template>
-<div>
-    <v-card> 
-        <v-card-title>
+  <div>
+    <v-card>
+      <v-card-title>
         <v-divider></v-divider>
-        </v-card-title>
-        <v-card-text>
+      </v-card-title>
+      <v-card-text>
         <v-layout>
-            <v-row>
+          <v-row>
             <v-col>
-                <v-img
+              <v-img
                 class="icon"
                 :src="require('../assets/health_and_safety-white-18dp.svg')"
-                ></v-img>
-                <div class="buzzword">
+              ></v-img>
+              <div class="buzzword">
                 Verified Identities für Healthcare Applications
-                </div>
+              </div>
             </v-col>
             <v-col>
-                <v-img
+              <v-img
                 class="icon"
                 :src="require('../assets/developer_board-white-18dp.svg')"
-                ></v-img>
-                <div class="buzzword">
-                Public Sector Confidential Computing
-                </div>
+              ></v-img>
+              <div class="buzzword">Public Sector Confidential Computing</div>
             </v-col>
-            </v-row>
+          </v-row>
         </v-layout>
-        </v-card-text>
+      </v-card-text>
     </v-card>
-    <v-card> 
-        <v-card-title>
+    <v-card>
+      <v-card-title>
         <v-divider></v-divider>
-        </v-card-title>
-        <v-card-text>
+      </v-card-title>
+      <v-card-text>
         <v-layout>
-            <v-row>
+          <v-row>
             <v-col>
-                <v-img 
+              <v-img
                 class="icon"
                 :src="require('../assets/local_fire_department-white-18dp.svg')"
-                ></v-img>
-                <div class="buzzword">
+              ></v-img>
+              <div class="buzzword">
                 Healthcare Interoperability Resources API
-                </div>
+              </div>
             </v-col>
             <v-col>
-                <v-img
+              <v-img
                 class="icon"
                 :src="require('../assets/all_inclusive-white-18dp.svg')"
-                ></v-img>
-                <div class="buzzword">
+              ></v-img>
+              <div class="buzzword">
                 Brilliantly begetting benign buzzwords.
-                </div>
+              </div>
             </v-col>
-            </v-row>
+          </v-row>
         </v-layout>
-        </v-card-text>
+      </v-card-text>
     </v-card>
-</div>
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from "vue-property-decorator";
 
 @Component
-export default class Buzzwords extends Vue {
-}
+export default class Buzzwords extends Vue {}
 </script>
 
 <style scoped>
 .icon {
-    float: left;
-    width: 34px;
+  float: left;
+  width: 34px;
 }
 .buzzword {
-    margin-left: 40px;
-    font-size: 85%;
+  margin-left: 40px;
+  font-size: 85%;
 }
 </style>
