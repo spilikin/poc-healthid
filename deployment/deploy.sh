@@ -15,7 +15,7 @@ cd ../aua/aua-vue/
 yarn build
 cd -
 mkdir -p ./dist/aua/aua-vue
-cp -r ../aua/aua-vue/dist ../aua/aua-vue/Dockerfile ../aua/aua-vue/nginx.conf ./dist/aua/aua-vue/
+cp -r ../aua/aua-vue/dist ../aua/aua-vue/nginx.conf ./dist/aua/aua-vue/
 
 
 ssh $HOST rm -rf healthid/*

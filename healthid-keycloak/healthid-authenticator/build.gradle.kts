@@ -17,14 +17,18 @@ repositories {
     jcenter()
 }
 
+java {                                      
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
 dependencies {
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation("org.keycloak:keycloak-core:12.0.4")
     implementation("org.keycloak:keycloak-server-spi:12.0.4")
     implementation("org.keycloak:keycloak-server-spi-private:12.0.4")
     implementation("org.keycloak:keycloak-services:12.0.4")
-    implementation( "org.jboss.logging:jboss-logging:3.4.1.Final")
-
+    implementation("org.jboss.logging:jboss-logging:3.4.1.Final")
     // Use TestNG framework, also requires calling test.useTestNG() below
     testImplementation("org.testng:testng:7.0.0")
 }
