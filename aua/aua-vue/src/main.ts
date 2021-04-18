@@ -5,7 +5,7 @@ import router from "./router";
 
 Vue.config.productionTip = false;
 
-if (localStorage.getItem("accessToken") == null) {
+if (localStorage.getItem("id_token") == null) {
   location.href = "/login/";
 } else {
   new Vue({
