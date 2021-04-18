@@ -6,8 +6,9 @@ cd ../healthid-keycloak/healthid-authenticator/
 gradle clean
 gradle build
 cd -
-cp ../healthid-keycloak/healthid-authenticator/build/libs/healthid-authenticator.jar ./dist/
-cp ../healthid-keycloak/healthid-authenticator/healthid-challenge.ftl ./dist/
+mkdir -p ./dist/healthid-authenticator
+cp ../healthid-keycloak/healthid-authenticator/build/libs/healthid-authenticator.jar ./dist/healthid-authenticator/
+cp -r ../healthid-keycloak/healthid-authenticator/theme ./dist/healthid-authenticator
 cp -r ./static-web dist/
 cp ./docker-compose.yaml dist/
 

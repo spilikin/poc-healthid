@@ -7,8 +7,8 @@ import ChooserView from "./ChooserView.vue";
 import AuthView from "./AuthView.vue";
 import CallbackView from "./CallbackView.vue";
 
-if (localStorage.getItem("accessToken") != null) {
-  localStorage.removeItem("accessToken");
+if (localStorage.getItem("id_token") != null) {
+  localStorage.removeItem("id_token");
 }
 
 if (location.pathname == "/login" || location.pathname == "/login/") {

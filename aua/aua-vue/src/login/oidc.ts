@@ -19,6 +19,7 @@ export function redirectToAuthEndpoint(
       code_challenge_method: "S256",
       code_challenge: codeChallenge,
       redirect_uri: redirectURI,
+      scope: "openid email"
     });
     window.location.href = authEndpoint + "?" + args;
   });
@@ -40,7 +41,8 @@ export function retrieveToken(
         const response = xhr.response;
 
         if (xhr.status == 200) {
-          localStorage.setItem("accessToken", response.access_token);
+          localStorage.setItem("id_token", response.id_token);
+          localStorage.setItem("access_token", response.access_token);
           resolve(response.access_token);
         } else {
           reject(Error(response.error_description));

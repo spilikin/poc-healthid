@@ -28,7 +28,8 @@ services:
       volumes:
         - ./dist/healthid-provider.jar:/opt/jboss/keycloak/standalone/deployments/healthid-provider.jar
         - ./healthid-authenticator/build/libs/healthid-authenticator.jar:/opt/jboss/keycloak/standalone/deployments/healthid-authenticator.jar
-        - ./healthid-authenticator/healthid-challenge.ftl:/opt/jboss/keycloak/themes/base/login/healthid-challenge.ftl
+        - ./healthid-authenticator/theme/healthid-challenge.ftl:/opt/jboss/keycloak/themes/base/login/healthid-challenge.ftl
+        - ./healthid-authenticator/theme/resources:/opt/jboss/keycloak/themes/base/login/resources/healthid
 
       ports:
           - 8080:8080

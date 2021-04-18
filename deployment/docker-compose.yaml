@@ -51,8 +51,9 @@ services:
         PROXY_ADDRESS_FORWARDING: "true"
         KEYCLOAK_HOSTNAME: id.acme.spilikin.dev
       volumes:
-        - ./healthid-authenticator.jar:/opt/jboss/keycloak/standalone/deployments/healthid-authenticator.jar
-        - ./healthid-challenge.ftl:/opt/jboss/keycloak/themes/base/login/healthid-challenge.ftl
+        - ./healthid-authenticator/healthid-authenticator.jar:/opt/jboss/keycloak/standalone/deployments/healthid-authenticator.jar
+        - ./healthid-authenticator/theme/healthid-challenge.ftl:/opt/jboss/keycloak/themes/base/login/healthid-challenge.ftl
+        - ./healthid-authenticator/theme/resources:/opt/jboss/keycloak/themes/base/login/resources/healthid
       labels:
           - "traefik.enable=true"
           - "traefik.http.services.keycloak.loadbalancer.server.port=8080"

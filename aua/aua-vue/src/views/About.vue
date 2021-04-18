@@ -1,8 +1,10 @@
 <template>
   <div class="about">
     <h1>Technical information</h1>
+    <h2>ID Token</h2>
+    <vue-json-pretty :path="'res'" :data="idTokenData"> </vue-json-pretty>
     <h2>Access Token</h2>
-    <vue-json-pretty :path="'res'" :data="jwt"> </vue-json-pretty>
+    <vue-json-pretty :path="'res'" :data="accessTokenData"> </vue-json-pretty>
   </div>
 </template>
 
@@ -15,12 +17,15 @@ import VueJsonPretty from "vue-json-pretty";
   components: { VueJsonPretty },
 })
 export default class Home extends Vue {
-  jwt!: Record<string, unknown>;
+  idTokenData!: Record<string, unknown>;
+  accessTokenData!: Record<string, unknown>;
 
   created() {
     console.log("created");
-    const token = localStorage.getItem("accessToken");
-    this.jwt = JSON.parse(atob(token!.split(".")[1]));
+    const idToken = localStorage.getItem("id_token");
+    this.idTokenData = JSON.parse(atob(idToken!.split(".")[1]));
+    const accessToken = localStorage.getItem("access_token");
+    this.accessTokenData = JSON.parse(atob(accessToken!.split(".")[1]));
   }
 }
 </script>
