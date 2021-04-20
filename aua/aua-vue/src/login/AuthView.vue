@@ -2,7 +2,7 @@
   <div>
     <v-card class="px-3 pb-6">
       <v-card-text>
-        <v-list-item>
+        <v-list-item style="background-color: #333333;">
 
           <v-list-item-icon>
             <v-img :src="identityProvider.logo_uri" width="50" style="border-radius: 10%;"/>
