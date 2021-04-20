@@ -9,12 +9,12 @@ import CallbackView from "./CallbackView.vue";
 
 if (localStorage.getItem("id_token") != null) {
   localStorage.removeItem("id_token");
+  localStorage.removeItem("access_token");
 }
 
-if (location.pathname == "/login" || location.pathname == "/login/") {
-  if (localStorage.getItem("identityProviderId") != null) {
+if (localStorage.getItem("identityProviderId") != null 
+    && (location.pathname == "/login" || location.pathname == "/login/") ) {
     location.href = "/login/auth";
-  }
 } else {
   Vue.use(VueRouter);
 

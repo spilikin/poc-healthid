@@ -3,11 +3,10 @@
     <v-card class="px-3 pb-6">
       <v-card-text>
         <v-list-item>
-          <v-list-item-avatar color="white" size="50">
-            <v-icon color="blue" x-large>{{
-              identityProvider.logo_uri
-            }}</v-icon>
-          </v-list-item-avatar>
+
+          <v-list-item-icon>
+            <v-img :src="identityProvider.logo_uri" width="50" style="border-radius: 10%;"/>
+          </v-list-item-icon>
 
           <v-list-item-content>
             <v-list-item-title
@@ -32,7 +31,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn x-large color="primary" @click="authenticate()" class="px-6">
+        <v-btn x-large color="primary" @click="authenticate()" class="px-6" :disabled="identityProvider.authorization_endpoint == ''">
           <v-img
             width="30"
             :src="require('../assets/health_and_safety-white-18dp.svg')"

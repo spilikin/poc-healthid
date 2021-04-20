@@ -13,7 +13,7 @@ export class FederationQuery {
         id: "id.acme.spilikin.dev",
         title: "ACME HealthID Provider",
         subtitle: "App Authentication",
-        logo_uri: "mdi-rocket-launch-outline",
+        logo_uri: "/acme-logo.png",
         authorization_endpoint:
           "https://id.acme.spilikin.dev/auth/realms/healthid/protocol/openid-connect/auth",
       },
@@ -21,14 +21,21 @@ export class FederationQuery {
         id: "<globex>",
         title: "Globex National",
         subtitle: "Comming soon",
-        logo_uri: "mdi-atom",
+        logo_uri: "/pharmacy.png",
         authorization_endpoint: "",
       },
       {
         id: "<hooly>",
         title: "hooli MobileID",
         subtitle: "Comming soon",
-        logo_uri: "mdi-hat-fedora",
+        logo_uri: "/smartphone.png",
+        authorization_endpoint: "",
+      },
+      {
+        id: "<initech>",
+        title: "Initech eID",
+        subtitle: "Comming soon",
+        logo_uri: "/credit-card.png",
         authorization_endpoint: "",
       },
     ];

@@ -18,9 +18,10 @@ cd -
 mkdir -p ./dist/aua/aua-vue
 cp -r ../aua/aua-vue/dist ../aua/aua-vue/nginx.conf ./dist/aua/aua-vue/
 
-
+ssh $HOST "(cd ./healthid/; sudo docker-compose down)"
 ssh $HOST rm -rf healthid/*
 ssh $HOST mkdir -p healthid
 ssh $HOST cp -f .env healthid/
 ssh $HOST mkdir -p healthid_volumes
 scp -r dist/* $HOST:healthid/
+ssh $HOST "(cd ./healthid/; sudo docker-compose up -d)"

@@ -10,9 +10,9 @@
                 :key="item.id"
                 @click="chooseIdentityProvider(item.id)"
               >
-                <v-list-item-avatar color="white">
-                  <v-icon color="blue">{{ item.logo_uri }}</v-icon>
-                </v-list-item-avatar>
+                <v-list-item-icon>
+                  <v-img :src="item.logo_uri" width="70" style="border-radius: 10%;"/>
+                </v-list-item-icon>
 
                 <v-list-item-content>
                   <v-list-item-title v-html="item.title"></v-list-item-title>
