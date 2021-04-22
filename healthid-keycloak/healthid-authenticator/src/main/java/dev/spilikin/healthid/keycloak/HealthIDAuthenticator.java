@@ -20,6 +20,8 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
+ * Custom authenticator for Keycloak to explore the customizing possibilities.
+ *
  * WARNING: This Authenticator is intended solely for demonstration of app based authentication.
  * Do not try this at home or at all.
  */
@@ -42,7 +44,6 @@ public class HealthIDAuthenticator implements Authenticator {
         Response response = form.createForm("healthid-challenge.ftl");
         context.challenge(response);
         
-        //context.success();
     }
 
     @Override
