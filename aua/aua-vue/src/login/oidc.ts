@@ -41,6 +41,14 @@ export function retrieveToken(
         const response = xhr.response;
 
         if (xhr.status == 200) {
+          console.log("Received token response")
+          console.log(response)
+
+          if (response == null) {
+            reject(Error("Empty response"))
+            return;
+          }
+
           localStorage.setItem("id_token", response.id_token);
           localStorage.setItem("access_token", response.access_token);
           resolve(response.access_token);
