@@ -28,8 +28,7 @@ services:
       volumes:
         - ./dist/healthid-provider.jar:/opt/jboss/keycloak/standalone/deployments/healthid-provider.jar
         - ./healthid-authenticator/build/libs/healthid-authenticator.jar:/opt/jboss/keycloak/standalone/deployments/healthid-authenticator.jar
-        - ./healthid-authenticator/theme/healthid-challenge.ftl:/opt/jboss/keycloak/themes/base/login/healthid-challenge.ftl
-        - ./healthid-authenticator/theme/healthid-poll-response.ftl:/opt/jboss/keycloak/themes/base/login/healthid-poll-response.ftl
+        - ./healthid-authenticator/theme/templates:/opt/jboss/keycloak/themes/base/login/healthid/
         - ./healthid-authenticator/theme/resources:/opt/jboss/keycloak/themes/base/login/resources/healthid
         - ./healthid-authenticator/disable-theme-cache.cli:/opt/jboss/startup-scripts/disable-theme-cache.cli
 

@@ -1,24 +1,27 @@
 console.log("Loading HealthID login script")
-//setTimeout(function(){ document.getElementById("healthid-login-form").submit(); }, 2000);
 
 function startPolling(formElement) {
     pollAuthenticationInfo(formElement).then( xhr => {
-        formElement.action = xhr.response.action;
-        console.log(xhr.response)
+        formElement.action = xhr.response.endpoint;
+        console.log("authenticated: "+xhr.response.authenticated)
+        if (!xhr.response.authenticated) {
+            return setTimeout(function() { startPolling(formElement) }, 1000)
+        } else {
+            document.getElementById("btn-finish").click()
+        }
     }).catch( error => {
         console.log(error)
-        location.reload()
+        setTimeout(function() { location.reload() }, 1000)
     })
 }
 
 function pollAuthenticationInfo(formElement) {
-
     return new Promise((resolve, reject) => {
         var xhr = new XMLHttpRequest();
 
         xhr.onload = function () {
 
-        if (xhr.status == 200) {
+        if (xhr.status == 200 || (xhr.status == 400 && xhr.response['endpoint'] != undefined) ) {
             resolve(xhr);
         } else {
             console.log("Received error")
@@ -32,9 +35,16 @@ function pollAuthenticationInfo(formElement) {
         var params = new URLSearchParams(formElement.action.split('?')[1])
         for (var [key, value] of formData) {
             params.append(key, value)
-            console.log(key)
         }
         params.set('command', 'poll')
         xhr.send(params)
     });    
+}
+
+function demoLogin(formElement) {
+    var input = document.createElement('input');
+    input.setAttribute('name', "command");
+    input.setAttribute('value', "demo");
+    input.setAttribute('type', "hidden");
+    formElement.appendChild(input);
 }

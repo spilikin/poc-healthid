@@ -31,14 +31,6 @@ public class AuthnChallengeProvider {
     }
 
     /**
-     * Add new authentication challenge
-     * @param info
-     */
-    public void addAuthnChallengeInfo(AuthnChallengeInfo info) {
-        cache.add(info);
-    }
-
-    /**
      * Find {@link AuthnChallengeInfo} by it's challenge value or by the user code
      * @param value
      * @return matching challenge or null
@@ -55,11 +47,26 @@ public class AuthnChallengeProvider {
     }
 
     /**
+     * Find {@link AuthnChallengeInfo} by it's challenge value
+     * @param value
+     * @return matching challenge or null
+     */
+    public AuthnChallengeInfo findByChallenge(String value) {
+        for (AuthnChallengeInfo info: cache) {
+            if (info.getChallenge().equals(value)) {
+                return info;
+            }
+        }
+        return null;
+    }
+
+
+    /**
      * Create and cache the new challenge
      * @return
      */
     public AuthnChallengeInfo next() {
-        AuthnChallengeInfo info = new AuthnChallengeInfo(generateChallenge(), generateUserCode(6));
+        AuthnChallengeInfo info = new AuthnChallengeInfo(generateRandomString(), generateUserCode(6), generateRandomString());
         cache.add(info);
         expire();
         return info;
@@ -76,14 +83,6 @@ public class AuthnChallengeProvider {
             buf.append(SYMBOLS[ThreadLocalRandom.current().nextInt(SYMBOLS.length)]);
         }
         return buf.toString();
-    }
-
-    /**
-     * Generates random challenge value to be signed by the authenticator
-     * @return
-     */
-    private String generateChallenge() {
-        return generateRandomString();
     }
 
     /**

@@ -11,12 +11,14 @@ public class AuthnChallengeInfo implements Serializable {
     private final long timestamp;
     private final String challenge;
     private final String userCode;
+    private final String deviceCode;
     private boolean authenticated = false;
     private String username;
 
-    public AuthnChallengeInfo(@NotNull  String challenge, @NotNull String userCode) {
+    public AuthnChallengeInfo(@NotNull  String challenge, @NotNull String userCode, String deviceCode) {
         this.challenge = challenge;
         this.userCode = userCode;
+        this.deviceCode = deviceCode;
         timestamp = System.currentTimeMillis();
     }
 
@@ -43,6 +45,10 @@ public class AuthnChallengeInfo implements Serializable {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getDeviceCode() {
+        return deviceCode;
     }
 
     @Override
