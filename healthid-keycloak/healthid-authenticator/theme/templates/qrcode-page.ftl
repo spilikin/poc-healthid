@@ -47,11 +47,6 @@
                     <input id="user_code" name="user_code" type="hidden" value="${challenge.userCode}"/>
                     <input id="device_code" name="device_code" type="hidden" value="${challenge.deviceCode}"/>
 
-                    <input name="username" type="text" value="user1">
-                    <input name="signature" type="text">
-                    <input class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}"
-                        name="command" type="submit" value="challenge_response"/>
-
                     <input style="display: none;"
                         id="btn-finish" name="command" type="submit" value="finish"/>
 
