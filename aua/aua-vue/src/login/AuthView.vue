@@ -47,7 +47,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import { FederationQuery, IdentityProvider } from "./federation";
-import { redirectToAuthEndpoint } from "./oidc";
+import { redirectToAuthEndpoint, requestOpenIDConfiguration } from "./oidc";
 
 @Component({
   components: {},
@@ -69,6 +69,11 @@ export default class AuthView extends Vue {
 
   mounted() {
     console.log("LoginView mounted");
+    requestOpenIDConfiguration("https://id.acme.spilikin.dev/auth/realms/healthid").then(config => {
+      console.log(config)
+    }).catch(error => {
+      alert(error)
+    })
   }
 
   changeIdentityProvider() {

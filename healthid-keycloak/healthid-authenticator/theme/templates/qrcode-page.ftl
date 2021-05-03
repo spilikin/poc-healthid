@@ -9,13 +9,13 @@
                 <div class="${properties.kcInputWrapperClass!}">
                     <div id="qrcode" style="float: left;"></div>
                     <script>
-
+                    console.log("${qrCodeLink?no_esc}")
                     //Create qr object
                     //Minus the url, these are the defaults
                     var qr = new VanillaQR({
 
-                        url: "https://id.acme.spilikin.dev/auth/auth/realms/healthid/protocols/remoteauth?client_id=aua.spilikin.dev&redirect_uri=&&code_challenge=${challenge}",
-                        size: 140,
+                        url: "${qrCodeLink?no_esc}",
+                        size: 180,
 
                         colorLight: "#ffffff",
                         colorDark: "#000000",

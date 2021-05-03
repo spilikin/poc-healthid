@@ -5,15 +5,20 @@ import org.keycloak.authentication.AuthenticationFlowContext;
 import org.keycloak.authentication.AuthenticationFlowError;
 import org.keycloak.authentication.Authenticator;
 import org.keycloak.forms.login.LoginFormsProvider;
+import org.keycloak.forms.login.freemarker.model.UrlBean;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserModel;
+import org.keycloak.protocol.oidc.utils.OAuth2Code;
 
 import javax.json.Json;
 import javax.json.JsonObjectBuilder;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import java.net.URI;
+import java.net.URL;
 
 /**
  * Custom authenticator for Keycloak to explore the customizing possibilities.
@@ -26,6 +31,7 @@ public class HealthIDAuthenticator implements Authenticator {
     private static final Logger LOGGER = Logger.getLogger(HealthIDAuthenticator.class);
 
     private static final String ATTR_CHALLENGE = "challenge";
+    private static final String ATTR_QR_CODE_LINK = "qrCodeLink";
     private static final String NOTE_CHALLENGE = "HEALTHID_CHALLENGE";
     private static final String PARAM_SIGNATURE = "signature";
     private static final String PARAM_COMMAND = "command";
@@ -75,6 +81,7 @@ public class HealthIDAuthenticator implements Authenticator {
         LoginFormsProvider formProvider = context.form();
         context.getAuthenticationSession().setAuthNote(NOTE_CHALLENGE, info.getChallenge());
         formProvider.setAttribute(ATTR_CHALLENGE, info);
+        formProvider.setAttribute(ATTR_QR_CODE_LINK, generateQRCodeLink(context, info));
         return formProvider;
     }
 
@@ -120,7 +127,7 @@ public class HealthIDAuthenticator implements Authenticator {
                     .build());
         } else {
             context.challenge(Response
-                    .status(Response.Status.BAD_REQUEST)
+                    .status(Response.Status.OK)
                     .type(MediaType.APPLICATION_JSON)
                     .entity(form.getEntity())
                     .build());
@@ -180,6 +187,7 @@ public class HealthIDAuthenticator implements Authenticator {
         String challengeValue = context.getAuthenticationSession().getAuthNote(NOTE_CHALLENGE);
         AuthnChallengeInfo info = challenges.findByChallengeOrUserCode(challengeValue);
         String deviceCode = params.getFirst(PARAM_DEVICE_CODE);
+        LOGGER.info(String.format("Finishing authentication for device: %s", deviceCode));
         if (!info.getDeviceCode().equals(deviceCode)) {
             challenges.remove(info);
             LOGGER.error(String.format("DeviceCode don't match: %s (remote) %s (local)", deviceCode, info.getDeviceCode()));
@@ -193,6 +201,7 @@ public class HealthIDAuthenticator implements Authenticator {
             context.setUser(user);
             context.success();
         } else {
+            LOGGER.error(String.format("Challenge is not authenticated yet: %s", challengeValue));
             context.failure(AuthenticationFlowError.INVALID_CREDENTIALS, newFormProvider(context).createForm("healthid/qrcode-page.ftl"));
         }
     }
@@ -201,6 +210,19 @@ public class HealthIDAuthenticator implements Authenticator {
         UserModel user = context.getSession().users().getUserByUsername(DEMO_USER_NAME, context.getRealm());
         context.setUser(user);
         context.success();
+    }
+
+    private String generateQRCodeLink(AuthenticationFlowContext context, AuthnChallengeInfo info) {
+        MultivaluedMap<String, String> params = context.getHttpRequest().getUri().getQueryParameters();
+        UriBuilder builder = UriBuilder.fromUri(context.getActionUrl(""));
+        builder.replaceQuery("");
+        builder.queryParam("client_id", params.getFirst("client_id"));
+        builder.queryParam("redirect_uri", params.getFirst("redirect_uri"));
+        builder.queryParam("code_challenge", params.getFirst("code_challenge"));
+        builder.queryParam("code_challenge_method", params.getFirst("code_challenge_method"));
+        builder.queryParam("scope", params.getFirst("scope"));
+        builder.queryParam("authn_challenge", info.getChallenge());
+        return builder.build().toString();
     }
 
         @Override

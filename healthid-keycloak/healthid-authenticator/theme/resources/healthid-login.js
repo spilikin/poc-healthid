@@ -3,7 +3,6 @@ console.log("Loading HealthID login script")
 function startPolling(formElement) {
     pollAuthenticationInfo(formElement).then( xhr => {
         formElement.action = xhr.response.endpoint;
-        console.log("authenticated: "+xhr.response.authenticated)
         if (!xhr.response.authenticated) {
             return setTimeout(function() { startPolling(formElement) }, 1000)
         } else {
@@ -18,7 +17,6 @@ function startPolling(formElement) {
 function pollAuthenticationInfo(formElement) {
     return new Promise((resolve, reject) => {
         var xhr = new XMLHttpRequest();
-
         xhr.onload = function () {
 
         if (xhr.status == 200 || (xhr.status == 400 && xhr.response['endpoint'] != undefined) ) {

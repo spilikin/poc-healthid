@@ -97,3 +97,19 @@ async function generateCodeChallenge(codeVerifier: string) {
     .replace(/\+/g, "-")
     .replace(/\//g, "_");
 }
+
+export function requestOpenIDConfiguration(issuer: string): Promise<Record<string, unknown>> {
+  return new Promise<Record<string, unknown>>((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+
+      xhr.onload = function (): void {
+        if (xhr.status == 200) {
+          resolve(JSON.parse(xhr.responseText));
+        } else {
+          reject(Error("HTTP Error: "+xhr.status));
+        }
+      };
+      xhr.open("GET", issuer+"/.well-known/openid-configuration");
+      xhr.send()
+  });  
+}

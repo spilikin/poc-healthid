@@ -29,6 +29,16 @@
 
       <v-tooltip bottom>
         <template v-slot:activator="{ on, attrs }">
+          <v-btn icon color="primary" dark v-bind="attrs" v-on="on">
+            <v-icon>mdi-chart-areaspline</v-icon>
+          </v-btn>
+        </template>
+        <span>History</span>
+      </v-tooltip>
+
+
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on, attrs }">
           <v-btn icon color="primary" dark v-bind="attrs" v-on="on" to="/about">
             <v-icon>mdi-cog</v-icon>
           </v-btn>
@@ -44,7 +54,7 @@
             dark
             v-bind="attrs"
             v-on="on"
-            onclick="window.location.href='/login/'"
+            @click="logout()"
           >
             <v-icon>mdi-logout</v-icon>
           </v-btn>
@@ -98,10 +108,23 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 
+import { requestOpenIDConfiguration } from "./login/oidc"
+
 @Component({
   components: {},
 })
-export default class AppView extends Vue {}
+export default class AppView extends Vue {
+  logout() {
+    const accessToken = localStorage.getItem("access_token")!;
+    const accessTokenData = JSON.parse(atob(accessToken!.split(".")[1]));    
+    requestOpenIDConfiguration(accessTokenData["iss"]).then( config => {
+      const args = new URLSearchParams({
+        redirect_uri: window.location.protocol + "//" + window.location.host + "/login/" ,
+      });
+      window.location.href = config["end_session_endpoint"] + "?" + args;
+    }).catch( error => alert(error))
+  }
+}
 </script>
 
 <style scoped>
