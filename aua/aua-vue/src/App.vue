@@ -116,13 +116,18 @@ import { requestOpenIDConfiguration } from "./login/oidc"
 export default class AppView extends Vue {
   logout() {
     const accessToken = localStorage.getItem("access_token")!;
-    const accessTokenData = JSON.parse(atob(accessToken!.split(".")[1]));    
-    requestOpenIDConfiguration(accessTokenData["iss"]).then( config => {
-      const args = new URLSearchParams({
-        redirect_uri: window.location.protocol + "//" + window.location.host + "/login/" ,
-      });
-      window.location.href = config["end_session_endpoint"] + "?" + args;
-    }).catch( error => alert(error))
+    const accessTokenData = JSON.parse(atob(accessToken!.split(".")[1]));
+    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    if (isIOS) {
+      redirect_uri: window.location.protocol + "//" + window.location.host + "/login/" ,
+    } else {   
+      requestOpenIDConfiguration(accessTokenData["iss"]).then( config => {
+        const args = new URLSearchParams({
+          redirect_uri: window.location.protocol + "//" + window.location.host + "/login/" ,
+        });
+        window.location.href = config["end_session_endpoint"] + "?" + args;
+      }).catch( error => alert(error))
+    }
   }
 }
 </script>
