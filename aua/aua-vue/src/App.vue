@@ -119,7 +119,7 @@ export default class AppView extends Vue {
     const accessTokenData = JSON.parse(atob(accessToken!.split(".")[1]));
     var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     if (isIOS) {
-      redirect_uri: window.location.protocol + "//" + window.location.host + "/login/" ,
+      window.location.href = "/login/";
     } else {   
       requestOpenIDConfiguration(accessTokenData["iss"]).then( config => {
         const args = new URLSearchParams({
